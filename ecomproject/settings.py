@@ -25,7 +25,14 @@ SECRET_KEY = 'django-insecure-iryfk6gpxk*nkdbrm@7_@2&rgqtw7xuj(6n74n398k_()_kd2#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "jobportal-wm9j.onrender.com",
+    "jobportal-1-y2au.onrender.com",
+    "localhost",
+    "127.0.0.1"
+]
+
 # ALLOWED_HOSTS = ["jobportal-1-y2au.onrender.com", "localhost", "127.0.0.1"]
 
 # Application definition
@@ -100,6 +107,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://jobportal-wm9j.onrender.com",
+    "https://jobportal-1-y2au.onrender.com",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
