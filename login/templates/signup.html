@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - MySite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f4fdf6, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .nav-link:hover {
+      color: #00ffc3 !important;
+      transition: 0.3s;
+    }
+    .form-control:focus {
+      border-color: #28a745;
+      box-shadow: 0 0 0 0.15rem rgba(40, 167, 69, 0.25);
+    }
+    .card {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ✅ Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3 sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold fs-4" href="{% url 'home' %}">
+      My<span class="text-success">Site</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navSignup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navSignup">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link px-3" href="{% url 'home' %}">Home</a>
+        </li>
+      </ul>
+      <div class="d-flex gap-2">
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm px-4">
+          <i class="bi bi-box-arrow-in-right me-1"></i>Login
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ✅ Page Content -->
+<div class="container-fluid">
+  <div class="row min-vh-100">
+    <!-- Left Panel -->
+    <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-dark text-white">
+      <div class="text-center px-4">
+        <h1 class="display-5 fw-bold">Welcome to <span class="text-success">MySite</span></h1>
+        <p class="lead mt-3">Join our platform and start your journey today.</p>
+        <img src="https://source.unsplash.com/500x300/?technology,signup" class="img-fluid rounded mt-4 shadow" alt="Welcome">
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center bg-light py-4">
+      <div class="card shadow-sm border-0 rounded-4 w-100 mx-3" style="max-width: 400px;">
+        <div class="card-body p-4">
+          <h4 class="text-center mb-3 fw-bold text-dark">Sign Up</h4>
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <div class="mb-2">
+              <label class="form-label">Username</label>
+              <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="full_name" class="form-control" required>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Phone</label>
+              <input type="text" name="phone" class="form-control">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Gender</label>
+              <select class="form-select" name="gender" required>
+                <option value="" disabled selected>Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Job Profile</label>
+              <input type="text" name="job_profile" class="form-control">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Profile Image</label>
+              <input type="file" name="image" class="form-control">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Confirm Password</label>
+              <input type="password" name="confirm_password" class="form-control" required>
+            </div>
+
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="terms" required>
+              <label class="form-check-label" for="terms">I agree to the <a href="#">Terms</a></label>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success btn-sm">
+                <i class="bi bi-person-plus-fill me-1"></i> Sign Up
+              </button>
+            </div>
+          </form>
+
+          <div class="text-center mt-3">
+            <small class="text-muted">Already have an account?
+              <a href="{% url 'login' %}" class="text-decoration-none">Login here</a>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
