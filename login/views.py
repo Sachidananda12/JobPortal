@@ -203,6 +203,27 @@ def view_applications(request):
 
 
     
+@login_required
+def edit_profile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        profile.full_name = request.POST.get('full_name')
+        profile.phone = request.POST.get('phone')
+        profile.gender = request.POST.get('gender')
+        profile.job_profile = request.POST.get('job_profile')
+        profile.headline = request.POST.get('headline')
+
+        if 'image' in request.FILES:
+            profile.image = request.FILES['image']
+        if 'resume' in request.FILES:
+            profile.resume = request.FILES['resume']
+
+        profile.save()
+        messages.success(request, "✅ Profile updated successfully.")
+        return redirect('dashboard')
+
+    return render(request, 'edit_profile.html', {'profile': profile})
 
 
 

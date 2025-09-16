@@ -12,4 +12,6 @@ urlpatterns = [
     path('applications/', views.view_applications, name='view_applications'),
     # path('approve/<int:application_id>/', views.approve_application, name='approve_application'),
     path('approve/<int:app_id>/', views.approve_application, name='approve_application'),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
+
 ]

@@ -44,6 +44,8 @@ class UserProfile(models.Model):
     gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')])
     image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     job_profile = models.CharField(max_length=255, blank=True)
+    headline = models.CharField(max_length=255, blank=True)  # Short tagline
+    resume = models.FileField(upload_to='profile_resumes/', blank=True, null=True)
 
     def __str__(self):
         return self.user.username

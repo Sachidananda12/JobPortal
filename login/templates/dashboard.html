@@ -73,7 +73,7 @@
 <div class="container mt-5">
   <div class="row">
 
-    <!-- ✅ Left Sidebar: Profile Card with Progress -->
+    <!-- ✅ Left Sidebar: Profile Card -->
     <div class="col-md-3 mb-3">
       <div class="card border-0 shadow-lg rounded-4 bg-white">
         <div class="card-body text-center p-4">
@@ -104,7 +104,10 @@
           <p class="text-success fw-bold mb-3">Profile Completed: {{ percent }}%</p>
 
           <h5 class="fw-bold mb-1">{{ profile.full_name|default:request.user.username }}</h5>
-          <p class="text-muted small mb-3">{{ request.user.email }}</p>
+          <p class="text-muted small mb-2">{{ request.user.email }}</p>
+
+          <!-- ✅ New Headline -->
+          <p class="fst-italic text-secondary small">"{{ profile.headline|default:'No headline added yet' }}"</p>
 
           <ul class="list-group list-group-flush text-start small">
             <li class="list-group-item bg-transparent border-0">
@@ -119,9 +122,19 @@
               <i class="bi bi-briefcase-fill text-warning me-2"></i>
               <strong>Job Profile:</strong> {{ profile.job_profile|default:"N/A" }}
             </li>
+            <li class="list-group-item bg-transparent border-0">
+              <i class="bi bi-file-earmark-text-fill text-danger me-2"></i>
+              <strong>Resume:</strong>
+              {% if profile.resume %}
+                <a href="{{ profile.resume.url }}" target="_blank" class="text-decoration-none">View Resume</a>
+              {% else %}
+                <span class="text-muted">Not Uploaded</span>
+              {% endif %}
+            </li>
           </ul>
 
-          <a href="#" class="btn btn-outline-success btn-sm mt-3">
+          <!-- ✅ Edit Profile -->
+          <a href="{% url 'edit_profile' %}" class="btn btn-outline-success btn-sm mt-3">
             <i class="bi bi-pencil-square me-1"></i> Edit Profile
           </a>
         </div>
