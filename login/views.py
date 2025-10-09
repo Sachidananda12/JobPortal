@@ -24,7 +24,7 @@ def signup_view(request):
         email = request.POST['email']
         phone = request.POST['phone']
         gender = request.POST['gender']
-        job_profile = request.POST.get('job_profile', '')  # or 'job_profile_name' if not changed
+        job_profile = request.POST.get('job_profile', '')  
         image = request.FILES.get('image')
 
         if password != confirm_password:
@@ -67,11 +67,8 @@ def login_view(request):
     return render(request, 'login.html')
 
 # User Dashboard
-from .models import Job, UserProfile
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.db.models import Q
+
+
 
 @login_required
 def dashboard(request):
@@ -90,12 +87,11 @@ def dashboard(request):
     except UserProfile.DoesNotExist:
         profile = None
 
-    # ✅ Calculate profile completion percentage
     percent = 0
     stroke_offset = 377  # circle circumference
 
     if profile:
-        total_fields = 5  # full_name, phone, gender, job_profile, image
+        total_fields = 5  
         filled_fields = sum([
             bool(profile.full_name),
             bool(profile.phone),
@@ -119,7 +115,7 @@ def dashboard(request):
 @login_required
 def admin_dashboard(request):
     if request.user.username != 'admin':
-        return redirect('dashboard')  # Redirect to user dashboard if not admin
+        return redirect('dashboard')  
 
     if request.method == 'POST':
         # Collect job posting data from form
@@ -188,47 +184,6 @@ def apply_job(request, job_id):
         'profile': profile,
     })
 
-
-
-
-
-@login_required
-def view_applications(request):
-    if request.user.username != 'admin':
-        return redirect('dashboard')
-
-    applications = JobApplication.objects.select_related('job', 'applicant').order_by('-applied_at')
-    return render(request, 'view_applications.html', {'applications': applications})
-
-
-
-    
-@login_required
-def edit_profile(request):
-    profile, created = UserProfile.objects.get_or_create(user=request.user)
-
-    if request.method == 'POST':
-        profile.full_name = request.POST.get('full_name')
-        profile.phone = request.POST.get('phone')
-        profile.gender = request.POST.get('gender')
-        profile.job_profile = request.POST.get('job_profile')
-        profile.headline = request.POST.get('headline')
-
-        if 'image' in request.FILES:
-            profile.image = request.FILES['image']
-        if 'resume' in request.FILES:
-            profile.resume = request.FILES['resume']
-
-        profile.save()
-        messages.success(request, "✅ Profile updated successfully.")
-        return redirect('dashboard')
-
-    return render(request, 'edit_profile.html', {'profile': profile})
-
-
-
-
-
 @login_required
 def approve_application(request, app_id):
     application = get_object_or_404(JobApplication, id=app_id)
@@ -296,6 +251,47 @@ def approve_application(request, app_id):
         return redirect('view_applications')
 
     return redirect('view_applications')
+
+
+
+
+@login_required
+def view_applications(request):
+    if request.user.username != 'admin':
+        return redirect('dashboard')
+
+    applications = JobApplication.objects.select_related('job', 'applicant').order_by('-applied_at')
+    return render(request, 'view_applications.html', {'applications': applications})
+
+
+
+    
+@login_required
+def edit_profile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        profile.full_name = request.POST.get('full_name')
+        profile.phone = request.POST.get('phone')
+        profile.gender = request.POST.get('gender')
+        profile.job_profile = request.POST.get('job_profile')
+        profile.headline = request.POST.get('headline')
+
+        if 'image' in request.FILES:
+            profile.image = request.FILES['image']
+        if 'resume' in request.FILES:
+            profile.resume = request.FILES['resume']
+
+        profile.save()
+        messages.success(request, "✅ Profile updated successfully.")
+        return redirect('dashboard')
+
+    return render(request, 'edit_profile.html', {'profile': profile})
+
+
+
+
+
 
 # Logout View
 def logout_view(request):
